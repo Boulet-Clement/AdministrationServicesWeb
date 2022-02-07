@@ -1,5 +1,9 @@
 # AdministrationServicesWeb
- 
+
+Se placer dans /DecouverteOAuth
+    php -S localhost:8080 
+se rendre du http://localhost:8080
+
 ## URL 1
 
 https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/calendar&redirect_uri=http://localhost/AdministrationServicesWeb/DecouverteOAuth/&response_type=code&client_id=948500310587-96hjng74irngfnubnkr9cgs3a6cggpjk.apps.googleusercontent.com
