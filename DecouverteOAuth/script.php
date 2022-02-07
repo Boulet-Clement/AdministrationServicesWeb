@@ -6,7 +6,7 @@ const CALENDAR_URL = 'https://www.googleapis.com/calendar/v3/calendars/primary/e
 const SCOPE = 'https://www.googleapis.com/auth/calendar';
 const CLIENT_ID = "948500310587-96hjng74irngfnubnkr9cgs3a6cggpjk.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
-const REDIRECT_URI = 'http://localhost/AdministrationServicesWeb/DecouverteOAuth/';
+const REDIRECT_URI = 'http://localhost/AdministrationServicesWeb/DecouverteOAuth/script.php';
 
 function curl_get($url, array $headers = []) {
     $curl = curl_init($url);
@@ -35,6 +35,9 @@ function curl_post($url, $data, array $headers = []) {
 
     return $response;
 }
+
+//https://www.googleapis.com/oauth2/v4/token
+
 
 function redirectGoogleSignIn() {
     header('Location: ' . ACCOUNTS_URL . '?scope=' . SCOPE. '&redirect_uri=' . REDIRECT_URI .'&response_type=code&client_id=' . CLIENT_ID);
