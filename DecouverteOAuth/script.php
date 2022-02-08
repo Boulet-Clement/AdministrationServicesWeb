@@ -6,7 +6,37 @@ const CALENDAR_URL = 'https://www.googleapis.com/calendar/v3/calendars/primary/e
 const SCOPE = 'https://www.googleapis.com/auth/calendar';
 const CLIENT_ID = "948500310587-96hjng74irngfnubnkr9cgs3a6cggpjk.apps.googleusercontent.com";
 const CLIENT_SECRET = "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";
-const REDIRECT_URI = 'http://localhost/AdministrationServicesWeb/DecouverteOAuth/script.php';
+const REDIRECT_URI = 'http://localhost:8080/script.php';
+
+//var_dump($_GET);
+$code = $_GET["code"];
+
+$fields = [
+    'code' => $code,
+    'client_id' => CLIENT_ID,
+    'client_secret' => CLIENT_SECRET,
+    'redirect_uri' => REDIRECT_URI,
+    'grant_type' => 'authorization_code',
+];
+$postdata = http_build_query($fields);
+
+$response = curl_post(API_URL, $postdata);
+//var_dump($response);
+
+$json = json_decode($response);
+//var_dump($json);
+$token = $json->access_token;
+//echo "ahhh";
+//var_dump($token);
+
+$calendarFields = [
+    "access_token" => $token
+];
+$calendarPostdata = http_build_query($calendarFields);
+
+$response = curl_post(CALENDAR_URL, $calendarPostdata);
+
+var_dump($response);
 
 function curl_get($url, array $headers = []) {
     $curl = curl_init($url);
@@ -35,9 +65,6 @@ function curl_post($url, $data, array $headers = []) {
 
     return $response;
 }
-
-//https://www.googleapis.com/oauth2/v4/token
-
 
 function redirectGoogleSignIn() {
     header('Location: ' . ACCOUNTS_URL . '?scope=' . SCOPE. '&redirect_uri=' . REDIRECT_URI .'&response_type=code&client_id=' . CLIENT_ID);
