@@ -4,4 +4,6 @@ Se placer dans /DecouverteOAuth
     php -S localhost:8080 
 se rendre du http://localhost:8080
 
+Le code se situe dans script.php
+
 
