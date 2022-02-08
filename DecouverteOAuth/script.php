@@ -1,16 +1,10 @@
 <?php 
-const ACCOUNTS_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
-const API_URL = 'https://www.googleapis.com/oauth2/v4/token';
-const CALENDAR_URL = 'https://www.googleapis.com/calendar/v3/calendars/primary/events';
+require('./.env');
 
-const SCOPE = 'https://www.googleapis.com/auth/calendar';
-const CLIENT_ID = "948500310587-96hjng74irngfnubnkr9cgs3a6cggpjk.apps.googleusercontent.com";
-const CLIENT_SECRET = "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";
-const REDIRECT_URI = 'http://localhost:8080/script.php';
-
-//var_dump($_GET);
+// On récupère le code dans une variable
 $code = $_GET["code"];
 
+// On définit les différents arguments
 $fields = [
     'code' => $code,
     'client_id' => CLIENT_ID,
@@ -18,27 +12,39 @@ $fields = [
     'redirect_uri' => REDIRECT_URI,
     'grant_type' => 'authorization_code',
 ];
+// On post la requete
 $postdata = http_build_query($fields);
-
+// On récupère la réponse
 $response = curl_post(API_URL, $postdata);
-//var_dump($response);
-
+// On transforme en JSON
 $json = json_decode($response);
-//var_dump($json);
+// On récupère le access_token
 $token = $json->access_token;
-//echo "ahhh";
-//var_dump($token);
+// On défini notre event
+$calendarFields = json_encode(array(
+    "start" => array("date" => "2022-04-01"),
+    "end" => array("date" => "2022-04-02"),
+    "description" => "Scrabble avec mamie"));
+// On définit l'URL d'une différente façon
+$lURL = CALENDAR_URL . '?scope=' . SCOPE . '&access_token=' . $token . '&grand_type=authorization_code'; 
+// On post et on récupère la réponse
+$response = curl_post($lURL, $calendarFields); 
 
-$calendarFields = [
-    "access_token" => $token,
-    //"start" => array ()
+// Partie récupération des events
+$URLEvents = "https://www.googleapis.com/auth/calendar.events.readonly";
+$URLEventsfields = [
+    'scope' => $URLEvents,
+    'code' => $code,
+    'client_id' => CLIENT_ID,
+    'client_secret' => CLIENT_SECRET,
+    'redirect_uri' => REDIRECT_URI,
+    'grant_type' => 'authorization_code',
 ];
-$calendarPostdata = http_build_query($calendarFields);
 /*
-$response = curl_post(CALENDAR_URL, $calendarPostdata);
-
-var_dump($response);*/
-
+$EventPostdata = http_build_query($URLEventsfields);
+$response = curl_post(API_URL, $EventPostdata);
+var_dump($response);
+*/
 function curl_get($url, array $headers = []) {
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_HEADER, false);
