@@ -1,5 +1,5 @@
 <?php 
-require('./.env');
+require('./env.php');
 
 // On récupère le code dans une variable
 $code = $_GET["code"];
@@ -30,7 +30,9 @@ $lURL = CALENDAR_URL . '?scope=' . SCOPE . '&access_token=' . $token . '&grand_t
 // On post et on récupère la réponse
 $response = curl_post($lURL, $calendarFields); 
 
-// Partie récupération des events
+/*###############################
+ Partie récupération des events
+################################*/
 $URLEvents = "https://www.googleapis.com/auth/calendar.events.readonly";
 $URLEventsfields = [
     'scope' => $URLEvents,
