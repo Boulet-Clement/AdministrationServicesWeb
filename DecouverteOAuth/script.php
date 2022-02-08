@@ -30,13 +30,14 @@ $token = $json->access_token;
 //var_dump($token);
 
 $calendarFields = [
-    "access_token" => $token
+    "access_token" => $token,
+    //"start" => array ()
 ];
 $calendarPostdata = http_build_query($calendarFields);
-
+/*
 $response = curl_post(CALENDAR_URL, $calendarPostdata);
 
-var_dump($response);
+var_dump($response);*/
 
 function curl_get($url, array $headers = []) {
     $curl = curl_init($url);
